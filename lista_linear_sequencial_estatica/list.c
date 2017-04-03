@@ -27,14 +27,6 @@ void clear(list *l)
     l->last = -1;
 }
 
-// list.c
-void insert_last(int x, list *l)
-{
-    if (is_null(l))
-        return;
-    insert_at(x, l->last, l);
-}
-
 int remove_at(int i, list *l)
 {
     if (is_null(l) ||
@@ -97,28 +89,22 @@ int remove_first(list *l)
 }
 
 //Insere o elemento x na posição i
-void insert_at(int x, int i, list *l)
+void insert(int x, list *l)
 {
-    if (is_null(l) ||
-        is_full(l) ||
-        (i < 0 || i > l->last))
-        return;
-
-    for (int j = l->last; j >= i; j--)
-    {
-        l->items[j + 1] = l->items[j];
-    }
-    l->last++;
-    l->items[i] = x;
-    l->count++;
-}
-
-//Insere um elemento na primeira posição
-void insert_first(int x, list *l)
-{
-    if (is_null(l))
-        return;
-    insert_at(x, l->first, l);
+    if (is_null(l) || is_full(l)) return;
+	l->count++;
+	if (l->items[l->last] > x) {
+		l->last++;
+		l->items[l->last] = x;
+	} else {
+		if (l->last > l->first) {
+			l->first--;
+			l->items[l->first] = x;
+		} else {
+			l->first = l->max;
+			l->items[l->max] = x;
+		}
+	}
 }
 
 //Procura por um elemento e retorna sua posição
