@@ -30,18 +30,21 @@ void clear(list *l)
 int remove_at(bool last, list *l)
 {
 	if (is_null(l) || is_empty(l)) return -1;
+	int x = -1;
 	l->count--;
 	if (!last) {
-		if (l->last > l->first) {
+        x = l->items[l->first];
+		if (l->last < l->first) {
 			if (l->first == l->max) {
 				l->first = 0;
 			} else {
-				l->first++;
+				l->first--;
 			}
 		} else {
-			l->first--;
+			l->first++;
 		}
 	} else {
+	    x = l->items[l->last];
 		l->last--;
 	}
 	if (is_empty(l))
@@ -63,10 +66,19 @@ int is_full(list *l)
 
 void print(list *l)
 {
-    for (int i = 0; i < l->count; i++)
-    {
-        printf("Item[%d] = %d\n", i, l->items[i]);
-    }
+    int i;
+	if (l->first > l->last) {
+		for (i = l->first; i < l->max; i++) {
+			printf("Item[%d] = %d\n", i, l->items[i]);
+		}
+		for (i = 0; i < l->count; i++) {
+			printf("Item[%d] = %d\n", i, l->items[i]);
+		}
+	} else {
+		for (i = l->first; i < l->last + 1; i++) {
+			printf("Item[%d] = %d\n", i, l->items[i]);
+		}
+	}
 }
 
 void destroy_list(list **l)
@@ -96,7 +108,6 @@ int remove_first(list *l)
 void insert_at(int x, bool last, list *l)
 {
     if (is_null(l) || is_full(l)) return;
-	l->count++;
 	if (is_empty(l)) {
 		l->first = 0;
 		l->last = 0;
@@ -106,7 +117,7 @@ void insert_at(int x, bool last, list *l)
 			l->last++;
 			l->items[l->last] = x;
 		} else {
-			if (l->last > l->first) {
+			if (l->last < l->first) {
 				l->first--;
 				l->items[l->first] = x;
 			} else {
@@ -115,6 +126,7 @@ void insert_at(int x, bool last, list *l)
 			}
 		}
 	}
+	l->count++;
 }
 
 //Insere um elemento na primeira posição
@@ -136,9 +148,10 @@ void insert_last(int x, list *l)
 //Procura por um elemento e retorna sua posição
 int search(int x, list *l)
 {
+    int i;
     if (is_null(l) || is_empty(l))
         return -1;
-    for (int i = l->first; i < l->last; i++)
+    for (i = l->first; i < l->last; i++)
     {
         if (x == l->items[i])
             return i;

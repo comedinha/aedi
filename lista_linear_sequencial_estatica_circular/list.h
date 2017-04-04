@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #ifndef LIST_H
 #define LIST_H
 
@@ -12,7 +14,7 @@ typedef struct {
 list* new_list(int size);
 void clear(list *l);
 void insert_last(int x, list *l);
-int remove_at(int i, list *l);
+int remove_at(bool last, list *l);
 int is_empty(list *l);
 int is_full(list *l);
 void print(list *l);
@@ -27,7 +29,7 @@ int remove_last(list *l);
 int remove_first(list *l);
 
 //Insere o elemento x na posição i
-void insert_at(int x, int i, list *l);
+void insert_at(int x, bool last, list *l);
 
 //Insere um elemento na primeira posição
 void insert_first(int x, list *l);
