@@ -27,32 +27,28 @@ void clear(list *l)
     l->last = -1;
 }
 
-// list.c
-void insert_last(int x, list *l)
+int remove_at(bool last, list *l)
 {
-    if (is_null(l))
-        return;
-    insert_at(x, l->last, l);
-}
-
-int remove_at(int i, list *l)
-{
-    if (is_null(l) ||
-        is_empty(l) ||
-        (i < 0 || i > l->last))
-        return -1;
-    int x = l->items[i];
-    for (int j = i; j < l->last; j++)
-    {
-        l->items[j] = l->items[j + 1];
-    }
-    l->last--;
-    l->count--;
-    if (is_empty(l))
-    {
-        l->first = -1;
-    }
-    return x;
+	if (is_null(l) || is_empty(l)) return -1;
+	l->count--;
+	if (!last) {
+		if (l->last > l->first) {
+			if (l->first == l->max) {
+				l->first = 0;
+			} else {
+				l->first++;
+			}
+		} else {
+			l->first--;
+		}
+	} else {
+		l->last--;
+	}
+	if (is_empty(l))
+	{
+		l->first = -1;
+	}
+	return x;
 }
 
 int is_empty(list *l)
@@ -85,7 +81,7 @@ int remove_last(list *l)
 {
     if (is_null(l))
         return -1;
-    return remove_at(l->last, l);
+    return remove_at(true, l);
 }
 
 //Remove o primeiro elemento e o retorna
@@ -93,45 +89,32 @@ int remove_first(list *l)
 {
     if (is_null(l))
         return -1;
-    return remove_at(l->first, l);
+    return remove_at(false, l);
 }
 
-//Insere o elemento x na posição i
-void insert_at(int x, int i, list *l)
+//Insere o elemento x na primeira ou última posição
+void insert_at(int x, bool last, list *l)
 {
-    if (is_null(l) ||
-        is_full(l))
-        return;
-
-    if (is_empty(l))
-    {
-        l->items[0] = x;
-        l->first = 0;
-        l->last = 0;
-        l->count = 1;
-        return;
-    }
-
-    if (i < 0 || i > l->last)
-    {
-        return;
-    }
-
-    if (i == l->last)
-    {
-        l->last++;
-        l->items[l->last] = x;
-    }
-    else
-    {
-        for (int j = l->last; j >= i; j--)
-        {
-            l->items[j + 1] = l->items[j];
-        }
-        l->last++;
-        l->items[i] = x;
-    }
-    l->count++;
+    if (is_null(l) || is_full(l)) return;
+	l->count++;
+	if (is_empty(l)) {
+		l->first = 0;
+		l->last = 0;
+		l->items[l->first] = x;
+	} else {
+		if (last) {
+			l->last++;
+			l->items[l->last] = x;
+		} else {
+			if (l->last > l->first) {
+				l->first--;
+				l->items[l->first] = x;
+			} else {
+				l->first = l->max;
+				l->items[l->max] = x;
+			}
+		}
+	}
 }
 
 //Insere um elemento na primeira posição
@@ -139,7 +122,15 @@ void insert_first(int x, list *l)
 {
     if (is_null(l))
         return;
-    insert_at(x, l->first, l);
+    insert_at(x, false, l);
+}
+
+//Insere um elemento na última posição
+void insert_last(int x, list *l)
+{
+    if (is_null(l))
+        return;
+    insert_at(x, true, l);
 }
 
 //Procura por um elemento e retorna sua posição
