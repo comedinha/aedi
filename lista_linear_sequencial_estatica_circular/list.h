@@ -13,7 +13,7 @@ typedef struct {
 
 list* new_list(int size);
 void clear(list *l);
-void insert_last(int x, list *l);
+bool insert_last(int x, list *l);
 int remove_at(bool last, list *l);
 int is_empty(list *l);
 int is_full(list *l);
@@ -29,10 +29,10 @@ int remove_last(list *l);
 int remove_first(list *l);
 
 //Insere o elemento x na posição i
-void insert_at(int x, bool last, list *l);
+bool insert_at(int x, bool last, list *l);
 
 //Insere um elemento na primeira posição
-void insert_first(int x, list *l);
+bool insert_first(int x, list *l);
 
 //Procura por um elemento e retorna sua posição
 int search(int x, list *l);
