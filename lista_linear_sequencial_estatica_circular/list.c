@@ -110,9 +110,9 @@ int remove_at_pos(int i, list *l)
     int j, k, y;
 	if (is_null(l) || is_empty(l)) return -1;
 	if (l->first > l->last) {
-	    if ((i < l->first || i > l->max - 1) && (i < 0 || i > l->last)) return;
-	} else {
-        if (i < 0 || i > l->last) return;
+	    if ((i < l->first || i > l->max - 1) && (i < 0 || i > l->last)) return -1;
+    } else {
+        if (i < 0 || i > l->last) return -1;
 	}
 	int x = l->items[i];
 	if ((l->first > l->last) && (i > l->last)) {
@@ -142,28 +142,28 @@ int remove_at_pos(int i, list *l)
 }
 
 //Insere o elemento x na posição i
-void insert_at_pos(int x, int i, list *l)
+bool insert_at_pos(int x, int i, list *l)
 {
     int k, j;
-	if (is_null(l) || is_full(l)) return;
-	if (l->first > l->last) {
-	    if ((i < l->first || i > l->max - 1) && (i < 0 || i > l->last)) return;
-	} else {
-        if (i < 0 || i > l->last) return;
-	}
-	if (is_empty(l)) {
-		l->items[0] = x;
-		l->first = 0;
-		l->last = 0;
-		l->count = 1;
-		return;
-	}
+    if (is_null(l) || is_full(l)) return false;
+    if (l->first > l->last) {
+        if ((i < l->first || i > l->max - 1) && (i < 0 || i > l->last)) return false;
+    } else {
+        if (i < 0 || i > l->last) return false;
+    }
+    if (is_empty(l)) {
+        l->items[0] = x;
+        l->first = 0;
+        l->last = 0;
+        l->count = 1;
+        return true;
+    }
 
-	if (i == l->last) {
-		l->last++;
-		l->items[l->last] = x;
-	} else {
-		if ((l->first > l->last) && (i > l->last)) {
+    if (i == l->last) {
+        l->last++;
+        l->items[l->last] = x;
+    } else {
+        if ((l->first > l->last) && (i > l->last)) {
             for (j = l->last; j >= 0; j--) {
                 l->items[j + 1] = l->items[j];
             }
@@ -171,15 +171,16 @@ void insert_at_pos(int x, int i, list *l)
             for (k = l->first; k >= i; k--) {
                 l->items[k + 1] = l->items[k];
             }
-		} else {
-		    for (j = l->last; j >= i; j--) {
+        } else {
+            for (j = l->last; j >= i; j--) {
                 l->items[j + 1] = l->items[j];
             }
-		}
-		l->last++;
+        }
+        l->last++;
         l->items[i] = x;
-	}
-	l->count++;
+    }
+    l->count++;
+    return true;
 }
 
 //Insere o elemento x na primeira ou última posição
