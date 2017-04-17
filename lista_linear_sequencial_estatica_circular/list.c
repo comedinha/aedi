@@ -104,13 +104,50 @@ int remove_first(list *l)
     return remove_at(false, l);
 }
 
+//Remove o elemento na posição i
+int remove_at_pos(int i, list *l)
+{
+    int j, k, y;
+	if (is_null(l) || is_empty(l)) return -1;
+	if (l->first > l->last) {
+	    if ((i < l->first || i > l->max - 1) && (i < 0 || i > l->last)) return;
+	} else {
+        if (i < 0 || i > l->last) return;
+	}
+	int x = l->items[i];
+	if ((l->first > l->last) && (i > l->last)) {
+        y = l->items[0];
+        for (j = 0; j < l->last; j++)
+        {
+            l->items[j] = l->items[j + 1];
+        }
+        for (k = i; k < l->max - 1; k++)
+        {
+            l->items[k] = l->items[k + 1];
+        }
+        l->items[l->max - 1] = y;
+    } else {
+        for (j = i; j < l->last; j++)
+        {
+            l->items[j] = l->items[j + 1];
+        }
+    }
+	l->count--;
+	l->last--;
+	if (is_empty(l))
+	{
+		l->first = -1;
+	}
+	return x;
+}
+
 //Insere o elemento x na posição i
-void insert_at_value(int x, int i, list *l)
+void insert_at_pos(int x, int i, list *l)
 {
     int k, j;
 	if (is_null(l) || is_full(l)) return;
 	if (l->first > l->last) {
-	    if ((i < l->first || i > l->max) && (i < 0 || i > l->last)) return; //Testar
+	    if ((i < l->first || i > l->max - 1) && (i < 0 || i > l->last)) return;
 	} else {
         if (i < 0 || i > l->last) return;
 	}
@@ -126,21 +163,13 @@ void insert_at_value(int x, int i, list *l)
 		l->last++;
 		l->items[l->last] = x;
 	} else {
-	    int j;
-		if (l->last > l->first) {
-		    if (i < l->first) {
-                printf("GO\n");
-                for (k = l->last; k >= 0; k--) {
-                    l->items[k + 1] = l->items[k];
-                }
-                l->items[0] = l->items[l->max];
-                for (j = l->max - 1; j >= i; j--) {
-                    l->items[j + 1] = l->items[j];
-                }
-            } else {
-                for (j = l->last; j >= i; j--) {
-                    l->items[j + 1] = l->items[j];
-                }
+		if ((l->first > l->last) && (i > l->last)) {
+            for (j = l->last; j >= 0; j--) {
+                l->items[j + 1] = l->items[j];
+            }
+            l->items[0] = l->items[l->max - 1];
+            for (k = l->first; k >= i; k--) {
+                l->items[k + 1] = l->items[k];
             }
 		} else {
 		    for (j = l->last; j >= i; j--) {

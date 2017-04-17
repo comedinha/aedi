@@ -30,6 +30,8 @@ int remove_first(list *l);
 
 //Insere o elemento x na posição i
 bool insert_at(int x, bool last, list *l);
+void insert_at_pos(int x, int i, list *l);
+int remove_at_pos(int i, list *l);
 
 //Insere um elemento na primeira posição
 bool insert_first(int x, list *l);
