@@ -45,7 +45,11 @@ int remove_at(bool last, list *l)
 		}
 	} else {
 	    x = l->items[l->last];
-		l->last--;
+	    if (l->last == 0) {
+            l->last = l->max - 1;
+	    } else {
+            l->last--;
+	    }
 	}
 	if (is_empty(l))
 	{
@@ -71,11 +75,11 @@ void print(list *l)
 		for (i = l->first; i < l->max; i++) {
 			printf("Item[%d] = %d\n", i, l->items[i]);
 		}
-		for (i = 0; i < l->last + 1; i++) {
+		for (i = 0; i <= l->last; i++) {
 			printf("Item[%d] = %d\n", i, l->items[i]);
 		}
 	} else {
-		for (i = l->first; i < l->last + 1; i++) {
+		for (i = l->first; i <= l->last; i++) {
 			printf("Item[%d] = %d\n", i, l->items[i]);
 		}
 	}
@@ -160,7 +164,11 @@ bool insert_at_pos(int x, int i, list *l)
     }
 
     if (i == l->last) {
-        l->last++;
+        if (l->last == l->max - 1) {
+            l->last = 0;
+        } else {
+            l->last++;
+        }
         l->items[l->last] = x;
     } else {
         if ((l->first > l->last) && (i > l->last)) {
@@ -197,8 +205,12 @@ bool insert_at(int x, bool last, list *l)
 
 	l->count++;
 	if (last) {
-		l->last++;
-		l->items[l->last] = x;
+        if (l->last == l->max - 1) {
+            l->last = 0;
+        } else {
+            l->last++;
+        }
+        l->items[l->last] = x;
 	} else {
 	    if (l->first == 0) {
             l->first = l->max - 1;

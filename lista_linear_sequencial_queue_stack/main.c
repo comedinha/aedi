@@ -24,6 +24,18 @@ void main() {
     printf("Primeiro elemento: %d\nQuantidade de itens: %d\nTamanho maximo:%d\n\n", peek_fila(f), count_fila(f), max_fila(f));
     printf("Removido: %d\n", dequeue(f));
     printf("Primeiro elemento: %d\nQuantidade de itens: %d\nTamanho maximo:%d\n\n", peek_fila(f), count_fila(f), max_fila(f));
+    enqueue(1, f);
+    printf("Inserido: 1\n");
+    printf("Primeiro elemento: %d\nQuantidade de itens: %d\nTamanho maximo:%d\n\n", peek_fila(f), count_fila(f), max_fila(f));
+    enqueue(2, f);
+    printf("Inserido: 2\n");
+    printf("Primeiro elemento: %d\nQuantidade de itens: %d\nTamanho maximo:%d\n\n", peek_fila(f), count_fila(f), max_fila(f));
+    enqueue(3, f);
+    printf("Inserido: 3\n");
+    printf("Primeiro elemento: %d\nQuantidade de itens: %d\nTamanho maximo:%d\n\n", peek_fila(f), count_fila(f), max_fila(f));
+    enqueue(4, f);
+    printf("Inserido: 4\n");
+    printf("Primeiro elemento: %d\nQuantidade de itens: %d\nTamanho maximo:%d\n\n", peek_fila(f), count_fila(f), max_fila(f));
     destroy_list(&f);
     printf("Lista destruida e sem dangling pointers? %s\n\n\n", f == NULL ? "Sure!" : "Wah Wah Wah Waaaaaaaah!");
 
