@@ -34,13 +34,9 @@ int remove_at(bool last, list *l)
 	l->count--;
 	if (!last) {
         x = l->items[l->first];
-		if (l->last < l->first) {
-			if (l->first == l->max) {
-				l->first = 0;
-			} else {
-				l->first--;
-			}
-		} else {
+		if ((l->last < l->first) && (l->first == l->max)) {
+            l->first = 0;
+        } else {
 			l->first++;
 		}
 	} else {

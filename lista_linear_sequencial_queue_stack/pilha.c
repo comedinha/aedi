@@ -4,17 +4,17 @@
 
 bool push(int x, list *l)
 {
-	return insert_last(x, l);
+	return insert_first(x, l);
 }
 
 int pop(list *l)
 {
-	return remove_last(l);
+	return remove_first(l);
 }
 
 int peek_pilha(list *l)
 {
-	return l->items[l->last];
+	return l->items[l->first];
 }
 
 int count_pilha(list *l)
